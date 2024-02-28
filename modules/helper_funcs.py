@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 import requests
 
-def download_data(source: str,
+def get_data(source: str,
                   destination: str,
                   remove_source: bool=True) -> Path:
     """downloads and unzips dataset to given destination.
