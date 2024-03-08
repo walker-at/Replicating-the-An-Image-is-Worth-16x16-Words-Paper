@@ -1,7 +1,7 @@
 import torch
 import matplotlib.pylot as plt
 import numpy as np
-from torchimport nn
+from torch import nn
 import os
 import zipfile
 from pathlib import Path
