@@ -49,7 +49,7 @@ def train_step(model: torch.nn.Module,
         optimizer.step()
 
         # calculate cumulate accuracy across batches
-        y_pred_class = torch.armax(torch.softmax(y_pred, dim=1), dim=1)
+        y_pred_class = torch.argmax(torch.softmax(y_pred, dim=1), dim=1)
         train_acc += (y_pred_class == y).sum().item()/len(y_pred)
 
     # average loss and accuracy per batch
