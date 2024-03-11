@@ -49,3 +49,14 @@ def get_data(source: str,
           os.remove(data_path / target_file)
     
     return image_path
+
+def set_seeds(seed: int=42):
+    """Sets random sets for PyTorch.
+
+    Args:
+        seed (int, optional): Defaults to 42.
+    """
+    # Set the seed for general torch operations
+    torch.manual_seed(seed)
+    # Set the seed for CUDA torch operations (ones that happen on the GPU)
+    torch.cuda.manual_seed(seed)
