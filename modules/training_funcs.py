@@ -42,10 +42,13 @@ def train_step(model: torch.nn.Module,
         loss = loss_fn(y_pred, y)
         train_loss += loss.item()
 
-        # 3. loss backward
+        # 3. Optimizer zero grad
+        optimizer.zero_grad()
+
+        # 4. loss backward
         loss.backward()
 
-        # 4. optimizer step
+        # 5. optimizer step
         optimizer.step()
 
         # calculate cumulate accuracy across batches
@@ -167,9 +170,3 @@ def train(model: torch.nn.Module,
         results["test_acc"].append(test_acc)
 
     return results
-
-                
-                
-              
-                
-    
