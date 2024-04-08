@@ -1,63 +1,45 @@
 class PatchEmbedding(nn.Module):
-  def __init__(self,
-               img_size:int=224, # training res from table 3
-               in_channels:int=3,
-               patch_size:int=16,
-               embedding_dim:int=768): # from table 1 for ViT
-    super().__init__()
-
-    self.patch_size = patch_size
-
-    self.num_patches = (img_size * img_size) // patch_size**2
-
-    # layer to turn an image into embedded patches
-    self.patchify = nn.Conv2d(in_channels=in_channels,
-                             out_channels=embedding_dim,
-                             kernel_size=patch_size,
-                             stride=patch_size,
-                             padding=0)
-
-    # layer to flatten feature map outputs of Conv2d
-    self.flatten = nn.Flatten(start_dim=2, # only flatten height and width of feature map
-                              end_dim=3)
-
-    # learnable class embedding
-    self.class_embedding = nn.Parameter(data=torch.randn(1, 1, embedding_dim),
-                                        requires_grad=True)
-
-    # learnable position embedding
-    self.position_embedding = nn.Parameter(data=torch.randn(1, self.num_patches+1, embedding_dim),
-                                           requires_grad=True)
-
-  # func for the forward computation steps
-  def forward(self, x):
-
-    # verify input shape
-    image_resolution = x.shape[-1]
-    assert image_resolution % patch_size == 0, f'input image shape: {img_size} must be divisible by patch size: {self.patch_size}'
-
-    # batch size
-    batch_size = x.shape[0]
-
-    # class token - expand the single learnable class token across the batch dimension
-    class_token = self.class_embedding.expand(batch_size, -1, -1) # we need to infer the dimension
-
-    # patch_embedding # print shape?
-    x = self.patchify(x)
-
-    # flatten # print shape?
-    x = self.flatten(x)
-
-    # reshape # print shape?
-    x = x.permute(0, 2, 1)
-
-    # prepend class embedding # print shape?
-    x = torch.cat((class_token, x), dim=1)
-
-    # position embedding
-    x = self.position_embedding + x
-
-    return x
+      '''
+      Takes a 2D input image and converts it into a 1D learnable embedding vector.
+    
+      Args:
+          in_channels (int): Num of color channels
+          patch_size (int): Size of patch to convert image to
+          embedding_dim (int): Size of embedding to convert image into.
+      '''
+      def __init__(self,
+                   in_channels:int=3,
+                   patch_size:int=16,
+                   embedding_dim:int=768): # from table 1 for ViT
+          super().__init__()
+      
+          self.patch_size = patch_size
+      
+          # layer to turn an image into embedded patches
+          self.patchify = nn.Conv2d(in_channels=in_channels,
+                                   out_channels=embedding_dim,
+                                   kernel_size=patch_size,
+                                   stride=patch_size,
+                                   padding=0)
+      
+          # layer to flatten feature map outputs of Conv2d
+          self.flatten = nn.Flatten(start_dim=2, # only flatten height and width of feature map
+                                    end_dim=3)
+      
+      # func for the forward computation steps
+      def forward(self, x):
+        
+          # verify input shape
+          image_resolution = x.shape[-1]
+          assert image_resolution % patch_size == 0, f'input image shape: {image_resolution} must be divisible by patch size: {self.patch_size}'
+      
+          # forward pass
+          x = self.patchify(x)
+      
+          x = self.flatten(x)
+      
+          # reshape to (batch_size, number_of_patches, embedding_dimension)
+          return x_flattened.permute(0, 2, 1)
 
 class MultiHeadSelfAttentionBlock(nn.Module):
       def __init__(self,
