@@ -1,6 +1,7 @@
 class PatchEmbedding(nn.Module):
       '''
-      Takes a 2D input image and converts it into a 1D learnable embedding vector.
+      Takes a 2D input image and converts it into a 1D learnable embedding vector
+      (a sequence of flattened 2D patches).
     
       Args:
           in_channels (int): Num of color channels
