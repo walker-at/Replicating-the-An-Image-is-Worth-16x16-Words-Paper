@@ -98,3 +98,28 @@ def plot_loss_curves(results):
     plt.title("Accuracy")
     plt.xlabel("Epochs")
     plt.legend()
+
+def save_model(model: torch.nn.Module,
+               target_dir: str,
+               model_name: str):
+    """
+    Saves a PyTorch model to a target directory.
+  
+    Args:
+      model: PyTorch model to save.
+      target_dir: Where to save to.
+      model_name: Filename for the model.
+    """
+    # Create target directory
+    target_dir_path = Path(target_dir)
+    target_dir_path.mkdir(parents=True,
+                          exist_ok=True)
+  
+    # Create model save path
+    assert model_name.endswith(".pth") or model_name.endswith(".pt")
+    model_save_path = target_dir_path / model_name
+  
+    # Save the model state_dict()
+    print(f"[INFO] Saving model to: {model_save_path}")
+    torch.save(obj=model.state_dict(),
+               f=model_save_path)
