@@ -79,30 +79,36 @@ class PatchEmbedding(nn.Module):
           return x_flattened.permute(0, 2, 1)
 
 class MultiHeadSelfAttentionBlock(nn.Module):
+      '''
+      Creates the MSA block.
+      '''
       def __init__(self,
                   embedding_dim:int=768, # from table 1
                   num_heads:int=12, # from table 1
                   attn_dropout:int=0): # appendix B specifies dropout not used after qkv projections
-            super().__init__()
+          super().__init__()
       
-            # LN is going to normalize our input values across the shape we choose
-            self.layer_norm = nn.LayerNorm(normalized_shape=embedding_dim)
+          # LN is going to normalize our input values across the shape we choose
+          self.layer_norm = nn.LayerNorm(normalized_shape=embedding_dim)
       
-            # MSA layer
-            self.mh_attn = nn.MultiheadAttention(embed_dim=embedding_dim,
-                                                      num_heads=num_heads,
-                                                      dropout=attn_dropout,
-                                                      batch_first=True) # True: (batch, number_of_patches, embedding_dimension)
+          # MSA layer
+          self.mh_attn = nn.MultiheadAttention(embed_dim=embedding_dim,
+                                               num_heads=num_heads,
+                                               dropout=attn_dropout,
+                                               batch_first=True) # True: (batch, number_of_patches, embedding_dimension)
       
       def forward(self, x):
           x = self.layer_norm(x)
           attn_output, _ = self.mh_attn(query=x,
-                                               key=x,
-                                               value=x,
-                                               need_weights=False) # we dont want attn_output_weights so we put an underscore
+                                        key=x,
+                                        value=x,
+                                        need_weights=False) # we dont want attn_output_weights so we put an underscore
       return attn_output
 
 class MLPBlock(nn.Module):
+      '''
+      Creates the MLP block.
+      '''
       def __init__(self,
                   embedding_dim:int=768,
                   mlp_size:int=3072,
@@ -130,6 +136,9 @@ class MLPBlock(nn.Module):
           return x
 
 class TransformerEncoderBlock(nn.Module):
+      '''
+      Puts the MSA and MLP block together for the transformer encoder block.
+      '''
       def __init__(self,
                   embedding_dim: int=768,
                   num_heads: int=12, # for MSA block
