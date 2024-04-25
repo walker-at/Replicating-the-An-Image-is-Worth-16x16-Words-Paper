@@ -13,14 +13,18 @@ For clarity in what's happening in the data-preprocessing steps, I make sure to 
   * I use a function stored in helper_funcs called get_data to download the data from my github
   * I use a function stored in data_setup called create_dataloaders to apply transforms to the train and test data and turn them into dataloaders
 3. Equation 1: Split Data into Patches and Create the Class, Position and Patch Embedding -- The Patch Embedding Layer
-  * Turn the following equation into a reusable PyTorch Module: Eq1_output = [class_token, patch1_embedding, patch2_embedding, ... patchN_embedding] + [position_token for each of the elements in that previous vector]
+  * Turn the following equation into a reusable PyTorch Module:
+     * Eq1_output = [class_token, patch1_embedding, patch2_embedding, ... patchN_embedding] + [position_token for each of the elements in that previous vector]
 4. Equation 2: Multi-Head Self-Attention (MSA) Block Consisting of MSA layer and LayerNorm (LN) -- Part 1 of our Transformer Encoder
-  * Turn the following equation into a reusable PyTorch Module: Eq_2 output = MSA_layer(LN_layers(Eq1_output)) + Eq1_output
+  * Turn the following equation into a reusable PyTorch Module:
+     * Eq_2 output = MSA_layer(LN_layers(Eq1_output)) + Eq1_output
 5. Equation 3: MultiLayerPerceptron (MLP) Block consisting of MLP Layer and LN -- Part 2 of our Transformer Encoder
-  * Turn the following equation into a reusable PyTorch Module: Eq3_output = MLP_layer(LN_layer(Eq2_output)) + Eq2_output
+  * Turn the following equation into a reusable PyTorch Module:
+     * Eq3_output = MLP_layer(LN_layer(Eq2_output)) + Eq2_output
 6. Put together Eq.2 and Eq.3 to form our Transformer Encoder
 7. Create the full ViT Architecture
-  * Equation 4 is added in here: Eq4_output = Linear_layer(LN_layer(Eq3_output))
+  * Equation 4 is added in here:
+     * Eq4_output = Linear_layer(LN_layer(Eq3_output))
 8. Training our Model and Plot Results
   * Pick a Loss Func: its multi-class classification so we use torch.nn.CrossEntropyLoss
   * Optimizer: paper states they used Adam optimizer
