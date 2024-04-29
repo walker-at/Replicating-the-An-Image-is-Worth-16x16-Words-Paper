@@ -2,7 +2,7 @@ This is a step-by-step implementation of the "An Image is Worth 16x16 Words: Tra
 
 Paper: https://arxiv.org/abs/2010.11929
 
-The project notebook opens with a brief discussion of the Transformer architecture, its application to a Computer Vision task, and the challenges compared to Convolutional Neural Networks. I then go through the machine learning workflow from data preprocessing and training a model, to utilizing transfer learning and hyperparamter tuning. Along the way, the mathematical equations of the original ViT paper are turned into clean PyTorch modules. The pieces as well as the final ViT architecture can be found in the modules folder.
+The project notebook opens with a brief discussion of the Transformer architecture, its application to a Computer Vision task, and the challenges compared to Convolutional Neural Networks. I then go through the machine learning workflow from data preprocessing and training a model, to utilizing transfer learning and hyperparameter tuning. Along the way, the mathematical equations of the original ViT paper are turned into clean PyTorch modules. The pieces as well as the final ViT architecture can be found in the modules folder.
 
 Throughout the project there were 2 main errors I found myself running into: incorrect/non-matching shape sizes, and device related errors. For this reason, you'll notice in the final workplace notebook I am consistently checking the shape of our image as it goes through our vit architecture, verifying input and output shapes match up. I am also specific wherever needed about the device to be run on.
 
